@@ -20,6 +20,16 @@ rank: 'king',
 suit: 'diamonds',
 cardImage: 'images/king-of-diamonds.png'	
 }];
+//board creation function
+var createBoard = function() {
+	for (var i = 0; i < cards.length; i++) {
+    var cardElement = document.createElement('img');
+    cardElement.setAttribute('src', 'images/back.png');
+    cardElement.setAttribute('data-id', i);
+    cardElement.addEventListener('click', flipCard);
+    document.getElementById('game-board').appendChild(cardElement);
+}
+}
 //array for storing cards that have been flipped
 var cardsInPlay = [];
 //function to check if the two cards match or not
@@ -32,16 +42,17 @@ var checkForMatch = function() {
 		 }
 }
 //function for user action of flipping card over
-var flipCard = function(cardId) {
+var flipCard = function() {
+	var cardId = this.getAttribute("data-id")
 	console.log("User flipped " + cards[cardId].rank)
 	console.log(cards[cardId].cardImage)
 	console.log(cards[cardId].suit)
 	cardsInPlay.push(cards[cardId])
+	this.setAttribute("src", cards[cardId].cardImage)
 //check to see if two cards are flipped and then call match checking function	
 if (cardsInPlay.length === 2) { 
 checkForMatch();
 }
 }
 
-flipCard(0);
-flipCard(2);
+createBoard();
